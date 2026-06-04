@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Création du site mono-produit</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header compact-header">
+    <div class="container header-inner">
+      <div>
+        <p class="kicker">Création du site</p>
+        <h1>Aperçu du site généré</h1>
+        <p>Modifiez le template, vérifiez les informations et téléchargez le HTML final.</p>
+      </div>
+      <a class="header-link" href="index.html">Nouveau produit</a>
+    </div>
+  </header>
+
+  <main class="container app-layout preview-layout">
+    <aside class="control-panel">
+      <h2>Paramètres</h2>
+
+      <label>
+        Template
+        <select id="templateSelect">
+          <option value="minimal">Minimal premium</option>
+          <option value="tech">Tech moderne</option>
+          <option value="boutique">Boutique élégante</option>
+          <option value="molla">Index2 Molla</option>
+        </select>
+      </label>
+
+      <button type="button" id="downloadButton" class="primary-button">Télécharger le site HTML</button>
+      <a class="secondary-link" href="index.html">Retour au formulaire</a>
+      <div id="statusMessage" class="info-message">Site chargé depuis les informations récupérées.</div>
+
+      <section class="details-panel">
+        <h3>Informations trouvées</h3>
+        <dl id="productDetails"></dl>
+      </section>
+    </aside>
+
+    <section class="site-panel">
+      <div class="site-toolbar">
+        <div>
+          <span class="toolbar-label">Template actif</span>
+          <strong id="currentTemplate">Minimal premium</strong>
+        </div>
+        <a id="openProductLink" href="#" target="_blank" rel="noreferrer">Ouvrir le produit</a>
+      </div>
+      <iframe id="sitePreview" title="Aperçu du site mono-produit"></iframe>
+    </section>
+  </main>
+
+  <script src="script.js?v=10"></script>
+</body>
+</html>
