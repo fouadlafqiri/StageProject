@@ -1,0 +1,135 @@
+<div class="preview-shell">
+  <header class="preview-header">
+    <div>
+      <style>
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  .gallery-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 4px;
+    cursor: default;
+  }
+  .search-image-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    line-height: 1;
+  }
+  .gallery-item:hover .search-image-btn {
+    opacity: 1;
+  }
+  .search-image-btn:hover {
+    background: rgba(0,0,0,0.8);
+  }
+  .search-image-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+</style>
+<p class="kicker">Aperçu mono-produit</p>
+      <h1>Votre product page est prête.</h1>
+      <p>Vérifiez les données extraites, changez de template et téléchargez le HTML final.</p>
+    </div>
+    <div class="header-actions">
+      <a class="back-link" routerLink="/">Nouveau produit</a>
+    </div>
+  </header>
+
+  <div class="preview-layout">
+    <aside class="preview-sidebar">
+      <section class="panel">
+        <h2>Template actif</h2>
+        <div class="template-card-grid">
+          <button
+            *ngFor="let template of templates"
+            type="button"
+            class="template-card"
+            [class.active]="selectedTemplate === template.key"
+            (click)="selectedTemplate = template.key; refreshPreview()"
+          >
+            <span class="template-preview" [class]="'template-preview preview-' + template.key"></span>
+            <span>
+              <strong>{{ template.label }}</strong>
+              <small>{{ template.description }}</small>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <button class="primary-btn" type="button" (click)="download()" [disabled]="!product">
+        Télécharger le HTML
+      </button>
+
+
+      <section class="panel" *ngIf="product">
+        <h2>Détails produit</h2>
+        <dl>
+          <div *ngFor="let row of detailRows()">
+            <dt>{{ row.label }}</dt>
+            <dd>{{ row.value }}</dd>
+          </div>
+        </dl>
+      </section>
+      <section class="panel" *ngIf="technicalSpecs().length">
+        <h2>Caractéristiques</h2>
+        <dl>
+          <div *ngFor="let spec of technicalSpecs()">
+            <dt>{{ spec.label }}</dt>
+            <dd>{{ spec.value }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="panel" *ngIf="reviews().length">
+        <h2>Avis</h2>
+        <div class="review-list">
+          <article class="review-item" *ngFor="let review of reviews()">
+            <strong>{{ review.rating || 'Avis client' }}</strong>
+            <p *ngIf="review.text">{{ review.text }}</p>
+            <small *ngIf="review.author">{{ review.author }}</small>
+          </article>
+        </div>
+      </section>
+    </aside>
+
+    <main class="preview-frame">
+      <div class="frame-toolbar">
+        <span>Template : <strong>{{ templateLabel(selectedTemplate) }}</strong></span>
+        <a *ngIf="product" [href]="product.url" target="_blank" rel="noreferrer" class="secondary-link">Voir l'URL produit</a>
+      </div>
+      <iframe *ngIf="product" class="site-preview" title="Aperçu du site mono-produit" [srcdoc]="safeSrcDoc || ''"></iframe>
+      <div class="empty-state" *ngIf="!product">
+        <p class="kicker">Aucun aperçu</p>
+        <h2>Générez un produit pour prévisualiser la page ici.</h2>
+        <p>Retournez au générateur, lancez le scraping puis revenez sur cet écran pour exporter le HTML.</p>
+        <a routerLink="/" class="primary-btn">Retour au générateur</a>
+      </div>
+    </main>
+  </div>
+</div>

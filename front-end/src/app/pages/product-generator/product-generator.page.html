@@ -1,0 +1,128 @@
+<div class="page-shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/">MonoProductStage</a>
+    <nav>
+      <a routerLink="/preview">Dernier apercu</a>
+      <button *ngIf="!(user$ | async)" type="button" (click)="goToLogin()">Connexion</button>
+      <button *ngIf="user$ | async" type="button" (click)="onLogout()">Deconnexion</button>
+    </nav>
+  </header>
+
+  <main class="workspace">
+    <section class="intro-panel">
+      <p class="eyebrow">URL ou image vers landing page</p>
+      <h1>Generez une landing page mono-produit prete a exporter.</h1>
+      <p>
+        Collez une URL produit ou importez une image. L'application extrait les donnees utiles, filtre les images et compose une page HTML responsive.
+      </p>
+
+      <div class="metrics-grid" aria-label="Fonctionnalites">
+        <div>
+          <strong>Scraping</strong>
+          <span>Amazon, Shopify, WooCommerce, Etsy, AliExpress</span>
+        </div>
+        <div>
+          <strong>IA</strong>
+          <span>Verification image-produit et enrichissement SEO</span>
+        </div>
+        <div>
+          <strong>Export</strong>
+          <span>HTML autonome avec galerie et CTA</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="generator-card">
+      <div *ngIf="user$ | async as user" class="status-line">
+        <span>Connecte en tant que <strong>{{ user.nom || user.email }}</strong></span>
+        <button class="link-button" type="button" (click)="onLogout()">Deconnexion</button>
+      </div>
+
+      <ng-container *ngIf="user$ | async; else disconnectedContent">
+        <form class="generator-form" (ngSubmit)="generate()">
+          <div class="form-heading">
+            <p class="eyebrow">Generateur</p>
+            <h2>Nouveau produit</h2>
+          </div>
+
+          <div class="search-tabs">
+            <button type="button" class="tab" [class.active]="searchMode === 'url'" (click)="searchMode = 'url'">Par URL</button>
+            <button type="button" class="tab" [class.active]="searchMode === 'image'" (click)="searchMode = 'image'">Par image</button>
+          </div>
+
+          <div *ngIf="searchMode === 'url'" class="search-section">
+            <label>
+              <span>Nom du produit</span>
+              <input type="text" name="name" required minlength="3" placeholder="Ex: Casque audio Pro" [(ngModel)]="productForm.name" />
+            </label>
+
+            <label>
+              <span>URL du produit</span>
+              <input type="url" name="url" required placeholder="https://..." [(ngModel)]="productForm.url" />
+            </label>
+          </div>
+
+          <div *ngIf="searchMode === 'image'" class="search-section">
+            <label>
+              <span>Nom du produit (optionnel)</span>
+              <input type="text" name="imageName" placeholder="Ex: iPhone 16" [(ngModel)]="productForm.name" />
+            </label>
+
+            <div class="image-upload-container">
+              <label for="imageInput" class="image-upload-label">
+                <span *ngIf="!imagePreview">Cliquez pour selectionner une image</span>
+                <span *ngIf="imagePreview">Image selectionnee</span>
+              </label>
+              <input
+                #imageInput
+                type="file"
+                id="imageInput"
+                name="imageInput"
+                accept="image/*"
+                (change)="onImageSelected($event)"
+                style="display: none;"
+              />
+              <img *ngIf="imagePreview" [src]="imagePreview" class="image-preview" alt="Apercu" />
+              <button *ngIf="imagePreview" type="button" class="clear-btn" (click)="clearImage()">Supprimer</button>
+            </div>
+          </div>
+
+          <fieldset class="template-picker">
+            <legend>Template</legend>
+            <button
+              *ngFor="let template of templates"
+              type="button"
+              class="template-card"
+              [class.active]="productForm.template === template.key"
+              (click)="productForm.template = template.key"
+            >
+              <span class="template-preview" [class]="'template-preview preview-' + template.key"></span>
+              <span class="template-copy">
+                <strong>{{ template.label }}</strong>
+                <small>{{ template.description }}</small>
+              </span>
+              <em>{{ template.tone }}</em>
+            </button>
+          </fieldset>
+
+          <button type="submit" class="primary-btn" [disabled]="loading">
+            {{ loading ? 'Generation en cours...' : 'Generer le site' }}
+          </button>
+        </form>
+      </ng-container>
+
+      <ng-template #disconnectedContent>
+        <div class="auth-message">
+          <p class="eyebrow">Acces requis</p>
+          <h2>Connectez-vous pour lancer la generation.</h2>
+          <p>Vous pouvez consulter l'outil, mais la recuperation produit et l'export necessitent un compte.</p>
+          <button type="button" class="primary-btn" (click)="goToLogin()">Se connecter ou creer un compte</button>
+        </div>
+      </ng-template>
+
+      <div class="status-box" [class.error]="status.startsWith('Erreur')" *ngIf="status">
+        {{ status }}
+      </div>
+    </section>
+  </main>
+</div>

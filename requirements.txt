@@ -1,3 +1,10 @@
 fastapi
 uvicorn
 mysql-connector-python
+python-multipart
+anthropic
+openai
+requests
+google-search-results
+beautifulsoup4
+playwright

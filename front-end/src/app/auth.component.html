@@ -1,0 +1,75 @@
+<div class="auth-page">
+  <section class="auth-hero" aria-label="Connexion">
+    <div class="auth-copy">
+      <a class="brand-link" routerLink="/">MonoProduct</a>
+      <p class="eyebrow">Developer product builder</p>
+      <h1>Connectez-vous à votre atelier de génération.</h1>
+      <p>
+        Lancez le scraping, assemblez un template premium et exportez une landing page mono-produit depuis un seul espace.
+      </p>
+
+      <div class="terminal-card" aria-hidden="true">
+        <div class="terminal-top">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <pre><code>$ mono-product init
+          fetch metadata: ok
+          compose landing: ready
+          export html: waiting auth</code></pre>
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="panel-header">
+        <p class="eyebrow">Accès sécurisé</p>
+        <h2>Se connecter</h2>
+        <p>Connectez-vous ou créez un compte pour utiliser le générateur.</p>
+      </div>
+
+      <div class="auth-tabs" role="tablist" aria-label="Mode d'authentification">
+        <button type="button" [class.active]="authTab === 'login'" (click)="switchTab('login')">Connexion</button>
+        <button type="button" [class.active]="authTab === 'register'" (click)="switchTab('register')">Créer un compte</button>
+      </div>
+
+      <form *ngIf="authTab === 'login'" (ngSubmit)="onLogin()" class="auth-form">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="dev@studio.com" [(ngModel)]="authForm.email" />
+        </label>
+        <label>
+          <span>Mot de passe</span>
+          <input type="password" name="motDePasse" required minlength="6" autocomplete="current-password" placeholder="Mot de passe" [(ngModel)]="authForm.motDePasse" />
+        </label>
+        <button type="submit" class="primary-action" [disabled]="loading">
+          {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
+      </form>
+
+      <form *ngIf="authTab === 'register'" (ngSubmit)="onRegister()" class="auth-form">
+        <label>
+          <span>Nom</span>
+          <input type="text" name="nom" required minlength="2" autocomplete="name" placeholder="Votre nom" [(ngModel)]="authForm.nom" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="dev@studio.com" [(ngModel)]="authForm.email" />
+        </label>
+        <label>
+          <span>Mot de passe</span>
+          <input type="password" name="motDePasse" required minlength="6" autocomplete="new-password" placeholder="6 caractères minimum" [(ngModel)]="authForm.motDePasse" />
+        </label>
+        <button type="submit" class="primary-action" [disabled]="loading">
+          {{ loading ? 'Création...' : 'Créer mon compte' }}
+        </button>
+      </form>
+
+      <div class="status-box" [class.error]="status.startsWith('Erreur')">
+        {{ status || 'Entrez vos informations pour continuer.' }}
+      </div>
+
+      <a class="back-link" routerLink="/">Retour au générateur</a>
+    </div>
+  </section>
+</div>

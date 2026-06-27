@@ -1,0 +1,17 @@
+<div class="connected-page">
+  <section class="connected-card">
+    <p class="eyebrow">Session active</p>
+    <h1>Connexion réussie</h1>
+    <p *ngIf="user$ | async as user">
+      Bonjour <strong>{{ user.nom || user.email }}</strong>, vous pouvez maintenant lancer une génération.
+    </p>
+    <p *ngIf="!(user$ | async)">
+      Vous êtes connecté. Vous pouvez maintenant accéder au générateur.
+    </p>
+
+    <div class="connected-actions">
+      <a routerLink="/" class="primary-btn">Retour au générateur</a>
+      <a routerLink="/preview" class="secondary-btn">Voir l'aperçu</a>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.connected-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.13), transparent 34%),
+    #f8fafc;
+}
+
+.connected-card {
+  width: min(520px, 100%);
+  padding: 34px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #0284c7;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.connected-card h1 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.connected-card p:not(.eyebrow) {
+  margin: 0 0 24px;
+  color: #475569;
+  line-height: 1.75;
+}
+
+.connected-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.primary-btn,
+.secondary-btn {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0 16px;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.primary-btn {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.secondary-btn {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+@media (max-width: 540px) {
+  .connected-actions {
+    grid-template-columns: 1fr;
+  }
+}

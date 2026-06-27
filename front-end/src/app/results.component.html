@@ -1,0 +1,66 @@
+<div class="form-page">
+  <header class="app-header">
+    <div class="container header-inner">
+      <div>
+        <p class="kicker">Résultats</p>
+        <h1>Aperçu du site généré</h1>
+        <p>Modifiez le template, vérifiez les informations et téléchargez le HTML final.</p>
+      </div>
+      <a class="header-link" routerLink="/">Nouveau produit</a>
+    </div>
+  </header>
+
+  <main class="container app-layout">
+    <aside class="control-panel">
+      <h2>Paramètres</h2>
+
+      <label>
+        Template
+        <select [(ngModel)]="selectedTemplate" (ngModelChange)="refreshPreview()">
+          <option value="minimal">Minimaliste</option>
+          <option value="tech">High-Tech</option>
+          <option value="boutique">Boutique Premium</option>
+          <option value="molla">E-commerce Moderne</option>
+        </select>
+      </label>
+
+      <button type="button" id="downloadButton" class="primary-button" (click)="download()" [disabled]="!product">
+        Télécharger le HTML
+      </button>
+
+      <a class="secondary-link" routerLink="/">Retour au formulaire</a>
+
+      <div class="info-message" *ngIf="product">
+        Site chargé depuis les informations récupérées.
+      </div>
+
+      <section class="details-panel" *ngIf="product">
+        <h3>Informations trouvées</h3>
+        <dl>
+          <div *ngFor="let row of detailRows()">
+            <dt>{{ row.label }}</dt>
+            <dd>{{ row.value }}</dd>
+          </div>
+        </dl>
+      </section>
+    </aside>
+
+    <section class="site-panel">
+      <div class="site-toolbar">
+        <div>
+          <span class="toolbar-label">Template actif</span>
+          <strong>{{ templateLabel(selectedTemplate) }}</strong>
+        </div>
+        <a *ngIf="product" id="openProductLink" [href]="product.url" target="_blank" rel="noreferrer">
+          Ouvrir le produit
+        </a>
+      </div>
+
+      <iframe *ngIf="product" id="sitePreview" title="Aperçu du site mono-produit" [srcdoc]="safeSrcDoc || ''"></iframe>
+      <div class="empty-state" *ngIf="!product">
+        <h2>Aucun site généré</h2>
+        <p>Retournez au générateur pour saisir une URL produit et créer un aperçu.</p>
+      </div>
+    </section>
+  </main>
+</div>
